@@ -1,6 +1,8 @@
-<!--logs.wxml-->
-<view class="container log-list">
-  <block wx:for="{{logs}}" wx:for-item="log">
-    <text class="log-item">{{index + 1}}. {{log}}</text>
-  </block>
+<!--日志页面-->
+<image src='/images/dog.jpg'></image>
+<view class="block">
+  <view class="block-title">
+  这是标题
+   </view>
+   <text class="block-desc">basdadasdasnkdnaskd</text>
 </view>
