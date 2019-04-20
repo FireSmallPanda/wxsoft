@@ -1,8 +1,11 @@
 <!--日志页面-->
 <image src='/images/dog.jpg'></image>
-<view class="block">
-  <view class="block-title">
-  这是标题
+<view class="block" wx:for="{{contentList}}" wx:key="{{item.id}}">
+  <view class="block-title" data-text="{{item.text}}" bindtap='copyData' > 
+  {{item.text}}
    </view>
-   <text class="block-desc">basdadasdasnkdnaskd</text>
+   <text class="block-desc">{{item.text_en}}</text>
+</view>
+<view class='footer'>
+  <button bindtap='callPhone'>电话拨号</button>
 </view>

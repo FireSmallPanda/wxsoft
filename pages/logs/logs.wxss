@@ -14,7 +14,7 @@ page{
   position: relative;
   font-size: 34rpx;
   line-height: 1.5;
-  padding: 10rpx 30rpx;
+  padding: 10rpx 40rpx;
 }
 .block-title::after{
   position: absolute;
@@ -30,4 +30,7 @@ page{
   line-height: 1.6;
   font-size: 30rpx;
   padding: 0 30rox 30rpx;
+}
+.footer{
+  margin-top: 50rpx
 }
