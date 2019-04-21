@@ -17,7 +17,7 @@
         <view class="pro-title">{{item.title}}</view>
         <text class="pro-desc">{{item.desc}}</text>
         <view clsss="pro-footer">
-          <image class='btn-detail' src='../../images/home.png'></image>
+          <image class='btn-detail' src='../../images/home.png'  data-text="{{item.title}}" bindtap='toLogs' ></image>
           <image class="btn-ask" src='../../images/log.png'></image>
         </view>
       </view>

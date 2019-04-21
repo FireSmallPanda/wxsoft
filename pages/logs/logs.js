@@ -5,7 +5,8 @@ Page({
   data: {
     contentList: []
   },
-  onLoad: function () {
+  onLoad: function (options) {
+    console.log(options)
     this.getDataList()
   },
   callPhone(){

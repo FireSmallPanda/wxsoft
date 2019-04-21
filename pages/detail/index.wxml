@@ -1,0 +1,7 @@
+<!--index.wxml-->
+
+<view class='item-list'>
+   <view>当前内容：{{name}}</view>
+   <view>全局内容：{{appData}}</view>
+    <view>stroage内容：{{homeData}}</view>
+</view>

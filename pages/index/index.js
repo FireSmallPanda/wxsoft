@@ -25,6 +25,17 @@ Page({
       },
     ]
   },
+  toLogs(data){
+  
+    let name = data.currentTarget.dataset.text
+    console.log(name)
+    wx.setStorageSync("home", '从首页跳转过来的')
+    wx.navigateTo({
+      url: "/pages/detail/index?name=" + name// '/pages/logs/logs?id=' + name
+    })
+    
+  },
+  
   //事件处理函数
   bindViewTap: function() {
 

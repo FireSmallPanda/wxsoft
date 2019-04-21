@@ -1,6 +1,6 @@
 <!--日志页面-->
 <image src='/images/dog.jpg'></image>
-<view class="block" wx:for="{{contentList}}" wx:key="{{item.id}}">
+<view class="block" wx:for="{{contentList}}" wx:key="{{item.id}}" >
   <view class="block-title" data-text="{{item.text}}" bindtap='copyData' > 
   {{item.text}}
    </view>
