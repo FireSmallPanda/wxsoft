@@ -2,12 +2,13 @@
   "pages": [
     "pages/index/index",
     "pages/logs/logs",
-    "pages/detail/index"
+    "pages/detail/index",
+    "pages/scan/scan"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#000",
-    "navigationBarTitleText": "我爱小程序",
+    "navigationBarTitleText": "扫一扫应用",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {

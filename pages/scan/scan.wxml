@@ -1,0 +1,9 @@
+<!--pages/scan/scan.wxml-->
+<view class="scan-box">
+  <view class="scan-btn" bindtap="openSan">
+    <view class="scan-pic">
+      <image src="../../images/scan.png" alt="扫一扫" />
+    </view>
+     <view class="scan-text">扫一扫</view>
+  </view>
+</view>

@@ -1,0 +1,13 @@
+.scan-box .scan-btn {
+  width: 120rpx;
+}
+.scan-box .scan-btn .scan-pic {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120rpx;
+}
+.scan-box .scan-btn .scan-pic image {
+  width: 100rpx;
+  height: 100rpx;
+}

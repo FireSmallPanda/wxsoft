@@ -1,46 +1,46 @@
 //logs.js
 const util = require('../../utils/util.js')
-
+const app = getApp()
 Page({
   data: {
     contentList: []
   },
   onLoad: function (options) {
-    console.log(options)
-    this.getDataList()
+
   },
-  callPhone(){
-    wx.makePhoneCall({
-      phoneNumber: '13107721069' // 仅为示例，并非真实的电话号码
-    })
-  },
-  getDataList(){
-    wx.request({
-      url: 'https://www.woheyun.com/api/cgwas/systemAction/getSystemDicts.json', //仅为示例，并非真实的接口地址
-      success:  (res)=> {
-        this.setData({
-          contentList: res.data.data
+  onShow() {
+    if (app.globalData.userInfo) {
+      this.setData({
+        userInfo: app.globalData.userInfo,
+        hasUserInfo: true
+      })
+      this.loadSaveInfo()
+    } else {
+      wx.showToast({
+        // 提示内容
+        title: "请先获取用户信息",
+        icon: "none",
+      })
+      // 让用户可以看到提示
+      setTimeout(()=>{
+        wx.switchTab({
+          url: '../index/index'
         })
-      }
-    })
-  },
-  copyData(data){
-    if (wx.setClipboardData){
-      wx.setClipboardData({
-        data: data.currentTarget.dataset.text,
-        success(res) {
-          wx.showModal({
-            title: '成功',
-            content: '您选取的内容复制成功！',
-          })
-        }
-      })
-    }else{
-      wx.showModal({
-        title: '提示',
-        content: '您的微信版本过低请升级！'
-      })
+      },500)
+     
     }
-   
-  }
+  },
+  loadInfo(){
+    
+  },
+  // getDataList(){
+  //   wx.request({
+  //     url: 'https://www.woheyun.com/api/cgwas/systemAction/getSystemDicts.json', //仅为示例，并非真实的接口地址
+  //     success:  (res)=> {
+  //       this.setData({
+  //         contentList: res.data.data
+  //       })
+  //     }
+  //   })
+  // },
 })

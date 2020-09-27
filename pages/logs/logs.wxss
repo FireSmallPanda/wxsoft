@@ -1,36 +1,21 @@
-page{
-  background-color: #f3f3f3
+/**index.wxss**/
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.banner{
-  display: block;
-  width: 100%;
-  height: 340rpx;
+
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
 }
-.block{
-  background-color: #fff;
-  margin-top: 15px;
+
+.userinfo-nickname {
+  color: #aaa;
 }
-.block-title{
-  position: relative;
-  font-size: 34rpx;
-  line-height: 1.5;
-  padding: 10rpx 40rpx;
-}
-.block-title::after{
-  position: absolute;
-  left: 20rpx;
-  top:15rpx;
-  content:"";
-  width:10rpx;
-  height:40rpx;
-  background-color: #2e5e86;
-}
-.block-desc{
-  color: #666;
-  line-height: 1.6;
-  font-size: 30rpx;
-  padding: 0 30rox 30rpx;
-}
-.footer{
-  margin-top: 50rpx
+
+.usermotto {
+  margin-top: 200px;
 }
