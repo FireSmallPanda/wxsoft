@@ -76,10 +76,16 @@ Page({
           key: 'userSaveInfo',
           success (res) {
             that.doSaveInfo(result,res.data)
+          },
+          fail(res){
+            that.doSaveInfo(result,null)
           }
         })
        
         console.log("result", result)
+      },
+      fail(res){
+        console.log("res", res)
       }
     })
   },

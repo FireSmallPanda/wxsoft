@@ -7,6 +7,9 @@
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
     </block>
   </view>
+  <view wx:if="{{startTimeString}}">进入时间：{{startTimeString}}</view>
+  <view wx:if="{{endTimeString}}">退出时间：{{endTimeString}}</view>
+  <view wx:if="{{startTimeString&&endTimeString}}">消耗时间：{{useTimeString}}</view>
   <view class="usermotto" bindtap="toScan">
     <text class="user-motto">{{motto}}</text>
   </view>

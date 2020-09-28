@@ -14,7 +14,7 @@ Page({
         userInfo: app.globalData.userInfo,
         hasUserInfo: true
       })
-      this.loadSaveInfo()
+      // this.loadSaveInfo()
     } else {
       wx.showToast({
         // 提示内容
