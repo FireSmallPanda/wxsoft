@@ -4,7 +4,7 @@ const app = getApp()
 import {formatTime,getDifValue} from "../../utils/util"
 Page({
   data: {
-    motto: '进入扫一扫',
+    motto: '扫一扫',
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
@@ -77,6 +77,26 @@ Page({
     if (!!!oldInfo) {
       return
     }
+    if(oldInfo.startTime){
+      // 判断是不是第二天 若是第二天则从新记时
+      let oldDate = new Date(oldInfo.startTime)
+      let oldY = oldDate.getFullYear()
+      let oldM = oldDate.getMonth()+1
+      let oldD  = oldDate.getDate()
+      let newDate = new Date()
+      let newY = newDate.getFullYear()
+      let newM = newDate.getMonth() +1 
+      let newD = newDate.getDate()
+      console.log("时间"+oldY+"年"+oldM+"月"+oldD+"日")
+      console.log("时间"+newY+"年"+newM+"月"+newD+"日")
+      if(oldY!=newY||oldM!=newM||oldD!=newD){
+        oldInfo = {}
+        oldInfo.name = app.globalData.userInfo.nickName
+        return
+      }
+
+    }
+    
     let startTimeString = "";
     let endTimeString = "";
     let useTimeString = "";
@@ -97,7 +117,6 @@ Page({
     })
   },
   getUserInfo: function (e) {
-    console.log(e)
     app.globalData.userInfo = e.detail.userInfo
     this.setData({
       userInfo: e.detail.userInfo,
@@ -114,8 +133,91 @@ Page({
       })
       return
     }
-    wx.navigateTo({
-      url: '/pages/scan/scan',
+    this.openSan()
+  },
+  // 打开扫一扫
+  openSan() {
+    let that = this
+    // 允许从相机和相册扫码
+    wx.scanCode({
+      success: (res) => {
+        var result = res.result;
+        wx.getStorage({
+          key: 'userSaveInfo',
+          success (res) {
+            that.doSaveInfo(result,res.data)
+          },
+          fail(res){
+            that.doSaveInfo(result,null)
+          }
+        })
+       
+        console.log("result", result)
+      },
+      fail(res){
+        console.log("res", res)
+      }
     })
+  },
+  // 保存用户信息
+  doSaveInfo(result,oldInfo) {
+    // 判断用户信息
+    if (!!!oldInfo) {
+      oldInfo = {}
+      oldInfo.name = app.globalData.userInfo.nickName
+    }else if(oldInfo.startTime){
+      // 判断是不是第二天 若是第二天则从新记时
+      let oldDate = new Date(oldInfo.startTime)
+      let oldY = oldDate.getFullYear()
+      let oldM = oldDate.getMonth()+1
+      let oldD  = oldDate.getDate()
+      let newDate = new Date()
+      let newY = newDate.getFullYear()
+      let newM = newDate.getMonth() +1 
+      let newD = newDate.getDate()
+      console.log("时间"+oldY+"年"+oldM+"月"+oldD+"日")
+      console.log("时间"+newY+"年"+newM+"月"+newD+"日")
+      if(oldY!=newY||oldM!=newM||oldD!=newD){
+        oldInfo = {}
+        oldInfo.name = app.globalData.userInfo.nickName
+      }
+    }
+    if (result.indexOf('进入码') > -1) {
+      if (oldInfo.startTime) {
+        wx.showToast({
+          // 提示内容
+          title: "您已扫过进入码",
+          icon: "none",
+        })
+        return
+      }
+      oldInfo.startTime = new Date().getTime()
+    } else if (result.indexOf('出去码') > -1) {
+      if (!oldInfo.startTime) {
+        wx.showToast({
+          // 提示内容
+          title: "请先扫进入码",
+          icon: "none",
+        })
+        return
+      }
+      oldInfo.endTime = new Date().getTime()
+    } else if (result.indexOf('小店码') > -1) {
+      if (!oldInfo.startTime) {
+        oldInfo.startTime = new Date().getTime()
+      }else{
+        oldInfo.endTime = new Date().getTime()
+      }
+      
+    } else {
+      return
+    }
+
+    // 保存用户信息
+    wx.setStorage({
+      data: oldInfo,
+      key: 'userSaveInfo',
+    })
+    this.getInfo()
   }
 })
