@@ -34,6 +34,23 @@ const getDifValue = (nowtimestamp, beforetimestamp) => {
   }
   return  returnString
 }
+/**
+ * 
+ * @param {*} nowtimestamp 
+ */
+const matchPrice = (time) => {
+  var day = Math.floor(difValue / 1000 / 60 / 60 / 24);//天
+  difValue = difValue % (1000 * 60 * 60 * 24);
+  var hour = Math.floor(difValue / 1000 / 60 / 60);//小时
+  difValue = difValue % (1000 * 60 * 60);
+  var min = Math.floor(difValue / 1000 / 60);//分钟
+  difValue = difValue % (1000 * 60);
+  var second = Math.floor(difValue / 1000);
+  let returnString = second + "秒" 
+  
+
+
+}
 module.exports = {
   formatTime: formatTime,
   getDifValue

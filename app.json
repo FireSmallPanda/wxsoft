@@ -8,25 +8,8 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#000",
-    "navigationBarTitleText": "扫一扫应用",
+    "navigationBarTitleText": "猪噜 PIGGY PIGGY",
     "navigationBarTextStyle": "white"
-  },
-  "tabBar": {
-    "selectedColor": "red",
-    "list": [
-      {
-        "pagePath": "pages/index/index",
-        "text": "首页",
-        "iconPath": "images/home.png",
-        "selectedIconPath": "images/home-select.png"
-      },
-      {
-        "pagePath": "pages/logs/logs",
-        "text": "日志",
-        "iconPath": "images/log.png",
-        "selectedIconPath": "images/log-select.png"
-      }
-    ]
   },
   "sitemapLocation": "sitemap.json"
 }

@@ -89,6 +89,7 @@ Page({
       }
     })
   },
+  // 保存用户信息
   doSaveInfo(result,oldInfo) {
     // 判断用户信息
     if (!!!oldInfo) {
@@ -116,6 +117,13 @@ Page({
         return
       }
       oldInfo.endTime = new Date().getTime()
+    } else if (result.indexOf('小店码') > -1) {
+      if (!oldInfo.startTime) {
+        oldInfo.startTime = new Date().getTime()
+      }else{
+        oldInfo.endTime = new Date().getTime()
+      }
+      
     } else {
       return
     }
