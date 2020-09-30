@@ -117,7 +117,7 @@ Page({
         return
       }
       oldInfo.endTime = new Date().getTime()
-    } else if (result.indexOf('小店码') > -1) {
+    } else if (result.indexOf('小店码A') > -1) {
       if (!oldInfo.startTime) {
         oldInfo.startTime = new Date().getTime()
       }else{

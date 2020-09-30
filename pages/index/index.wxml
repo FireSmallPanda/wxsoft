@@ -3,13 +3,18 @@
   <view class="userinfo">
     <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取用户信息 </button>
     <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
     </block>
   </view>
-  <view wx:if="{{startTimeString}}">进入时间：{{startTimeString}}</view>
-  <view wx:if="{{endTimeString}}">退出时间：{{endTimeString}}</view>
-  <view wx:if="{{startTimeString&&endTimeString}}">消耗时间：{{useTimeString}}</view>
+  <view class="time-box" wx:for="{{timeList}}">
+    <view wx:if="{{item.typeName}}">{{item.typeName}}</view>
+    <view wx:if="{{item.startTimeString}}">进入时间：{{item.startTimeString}}</view>
+    <view wx:if="{{item.endTimeString}}">退出时间：{{item.endTimeString}}</view>
+    <view wx:if="{{item.startTimeString&&item.endTimeString}}">消耗时间：{{item.useTimeString}}</view>
+    <view wx:if="{{item.price}}">小计：{{item.price}}元</view>
+  </view>
+  
   <view class="usermotto" bindtap="toScan">
     <text class="user-motto">{{motto}}</text>
   </view>

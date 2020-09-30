@@ -2,6 +2,8 @@
 //获取应用实例
 const app = getApp()
 import {formatTime,getDifValue} from "../../utils/util"
+import {matchPrice,typesDict} from "../../utils/cash"
+
 Page({
   data: {
     motto: '扫一扫',
@@ -94,26 +96,44 @@ Page({
         oldInfo.name = app.globalData.userInfo.nickName
         return
       }
-
+      this.matchOutTime(oldInfo)
     }
+  },
+  matchOutTime(oldInfo){
+    // 消费类型
+    let type = ['A','B']
+    let saveList = []
+    type.forEach(item=>{
+      let startTimeString = "";
+      let endTimeString = "";
+      let useTimeString = "";
+      let price = "";
+      let havFlag = false
+      if (oldInfo['startTime'+item]) {
+        startTimeString = formatTime(new Date(oldInfo['startTime'+item]))
+        havFlag = true
+      }
+      if (oldInfo['endTime'+item]) {
+        endTimeString = formatTime(new Date(oldInfo['endTime'+item]))
+        havFlag = true
+      }
+      // 计算时间差
+      if (oldInfo['startTime'+item]&&oldInfo['endTime'+item]){
+        useTimeString = getDifValue(oldInfo['endTime'+item],oldInfo['startTime'+item])
+        price = matchPrice(null,item,oldInfo['endTime'+item]-oldInfo['startTime'+item])
+        havFlag = true
+      }
+      // 加入时间集合
+      if(havFlag){
+        // 查询匹配的套餐
+        let findTypeObj = typesDict.find(typeItem =>typeItem.name === item)
+        let timeItem = {type:item,startTimeString,endTimeString,useTimeString,price,typeName:findTypeObj.value}
+        saveList.push(timeItem)
+      }
+    })
     
-    let startTimeString = "";
-    let endTimeString = "";
-    let useTimeString = "";
-    if (oldInfo.startTime) {
-      startTimeString = formatTime(new Date(oldInfo.startTime))
-    }
-    if (oldInfo.endTime) {
-      endTimeString = formatTime(new Date(oldInfo.endTime))
-    }
-    // 计算时间差
-    if (oldInfo.startTime&&oldInfo.endTime){
-      useTimeString = getDifValue(oldInfo.endTime,oldInfo.startTime)
-    }
     this.setData({
-      startTimeString,
-      endTimeString,
-      useTimeString
+      timeList:saveList
     })
   },
   getUserInfo: function (e) {
@@ -203,10 +223,12 @@ Page({
       }
       oldInfo.endTime = new Date().getTime()
     } else if (result.indexOf('小店码') > -1) {
-      if (!oldInfo.startTime) {
-        oldInfo.startTime = new Date().getTime()
+      let typeObj = result.split("&&")
+      
+      if (!oldInfo['startTime'+typeObj[1]]) {
+        oldInfo['startTime'+typeObj[1]] = new Date().getTime()
       }else{
-        oldInfo.endTime = new Date().getTime()
+        oldInfo['endTime'+typeObj[1]] = new Date().getTime()
       }
       
     } else {
