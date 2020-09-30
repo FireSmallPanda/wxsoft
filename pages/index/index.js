@@ -13,6 +13,7 @@ Page({
     startTimeString: "",
     endTimeString: "",
     useTimeString: "",
+    timeList:[]
   },
   //事件处理函数
   bindViewTap: function () {
@@ -74,11 +75,11 @@ Page({
     })
   },
   doShowInfo(oldInfo) {
-    
     // 判断用户信息
     if (!!!oldInfo) {
       return
     }
+    
     if(oldInfo.startTime){
       // 判断是不是第二天 若是第二天则从新记时
       let oldDate = new Date(oldInfo.startTime)
@@ -89,8 +90,6 @@ Page({
       let newY = newDate.getFullYear()
       let newM = newDate.getMonth() +1 
       let newD = newDate.getDate()
-      console.log("时间"+oldY+"年"+oldM+"月"+oldD+"日")
-      console.log("时间"+newY+"年"+newM+"月"+newD+"日")
       if(oldY!=newY||oldM!=newM||oldD!=newD){
         oldInfo = {}
         oldInfo.name = app.globalData.userInfo.nickName
@@ -103,7 +102,9 @@ Page({
     // 消费类型
     let type = ['A','B']
     let saveList = []
-    type.forEach(item=>{
+    for(let i = 0 ;i<type.length;i++){
+
+      let item = type[i]
       let startTimeString = "";
       let endTimeString = "";
       let useTimeString = "";
@@ -130,8 +131,8 @@ Page({
         let timeItem = {type:item,startTimeString,endTimeString,useTimeString,price,typeName:findTypeObj.value}
         saveList.push(timeItem)
       }
-    })
-    
+    }
+    console.log('saveList'+saveList)
     this.setData({
       timeList:saveList
     })
@@ -181,6 +182,7 @@ Page({
   },
   // 保存用户信息
   doSaveInfo(result,oldInfo) {
+    let that = this
     // 判断用户信息
     if (!!!oldInfo) {
       oldInfo = {}
@@ -224,9 +226,27 @@ Page({
       oldInfo.endTime = new Date().getTime()
     } else if (result.indexOf('小店码') > -1) {
       let typeObj = result.split("&&")
-      
       if (!oldInfo['startTime'+typeObj[1]]) {
-        oldInfo['startTime'+typeObj[1]] = new Date().getTime()
+        let findTypeObj = typesDict.find(typeItem =>typeItem.name === typeObj[1])
+        wx.showModal({
+          title: '确认',
+          content: '是否选择'+findTypeObj.remark,
+          success(res) {
+            if (res.confirm) {
+              oldInfo['startTime'+typeObj[1]] = new Date().getTime()
+              oldInfo.startTime = new Date().getTime() 
+               // 保存用户信息
+              wx.setStorage({
+                data: oldInfo,
+                key: 'userSaveInfo',
+              })
+              that.getInfo()
+              return
+            } else if (res.cancel) {
+            }
+          }
+        })
+        
       }else{
         oldInfo['endTime'+typeObj[1]] = new Date().getTime()
       }
@@ -241,5 +261,17 @@ Page({
       key: 'userSaveInfo',
     })
     this.getInfo()
+    
+  },
+  doClear(){
+    wx.clearStorage({
+      success: (res) => {
+        wx.showToast({
+          // 提示内容
+          title: "清除缓存成功",
+          icon: "none",
+        })
+      },
+    })
   }
 })
