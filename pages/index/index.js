@@ -1,8 +1,14 @@
 //index.js
 //获取应用实例
 const app = getApp()
-import {formatTime,getDifValue} from "../../utils/util"
-import {matchPrice,typesDict} from "../../utils/cash"
+import {
+  formatTime,
+  getDifValue
+} from "../../utils/util"
+import {
+  matchPrice,
+  typesDict
+} from "../../utils/cash"
 
 Page({
   data: {
@@ -13,7 +19,10 @@ Page({
     startTimeString: "",
     endTimeString: "",
     useTimeString: "",
-    timeList:[]
+    timeList: [],
+    dialogShow: true,
+    typesDict: typesDict,
+    current:'A'
   },
   //事件处理函数
   bindViewTap: function () {
@@ -42,7 +51,7 @@ Page({
         success: res => {
           app.globalData.userInfo = res.userInfo
           // 获取当前用户信息
-          
+
           this.getInfo()
           this.setData({
             userInfo: res.userInfo,
@@ -54,13 +63,14 @@ Page({
   },
 
   onShow: function () {
-    this.getInfo() 
+    this.getInfo()
 
   },
   getInfo() {
-    if(!this.data.hasUserInfo){
-      return
-    }
+    // if (!this.data.hasUserInfo) {
+    //   return
+    // }
+    
     let that = this;
     wx.getStorage({
       key: 'userSaveInfo',
@@ -70,27 +80,28 @@ Page({
       },
       fail(res) {
         return
-       //  that.doShowInfo(null)
+        //  that.doShowInfo(null)
       }
     })
   },
+  
   doShowInfo(oldInfo) {
     // 判断用户信息
     if (!!!oldInfo) {
       return
     }
-    
-    if(oldInfo.startTime){
+
+    if (oldInfo.startTime) {
       // 判断是不是第二天 若是第二天则从新记时
       let oldDate = new Date(oldInfo.startTime)
       let oldY = oldDate.getFullYear()
-      let oldM = oldDate.getMonth()+1
-      let oldD  = oldDate.getDate()
+      let oldM = oldDate.getMonth() + 1
+      let oldD = oldDate.getDate()
       let newDate = new Date()
       let newY = newDate.getFullYear()
-      let newM = newDate.getMonth() +1 
+      let newM = newDate.getMonth() + 1
       let newD = newDate.getDate()
-      if(oldY!=newY||oldM!=newM||oldD!=newD){
+      if (oldY != newY || oldM != newM || oldD != newD) {
         oldInfo = {}
         oldInfo.name = app.globalData.userInfo.nickName
         return
@@ -98,11 +109,11 @@ Page({
       this.matchOutTime(oldInfo)
     }
   },
-  matchOutTime(oldInfo){
+  matchOutTime(oldInfo) {
     // 消费类型
-    let type = ['A','B']
+    let type = ['A', 'B']
     let saveList = []
-    for(let i = 0 ;i<type.length;i++){
+    for (let i = 0; i < type.length; i++) {
 
       let item = type[i]
       let startTimeString = "";
@@ -110,31 +121,38 @@ Page({
       let useTimeString = "";
       let price = "";
       let havFlag = false
-      if (oldInfo['startTime'+item]) {
-        startTimeString = formatTime(new Date(oldInfo['startTime'+item]))
+      if (oldInfo['startTime' + item]) {
+        startTimeString = formatTime(new Date(oldInfo['startTime' + item]))
         havFlag = true
       }
-      if (oldInfo['endTime'+item]) {
-        endTimeString = formatTime(new Date(oldInfo['endTime'+item]))
+      if (oldInfo['endTime' + item]) {
+        endTimeString = formatTime(new Date(oldInfo['endTime' + item]))
         havFlag = true
       }
       // 计算时间差
-      if (oldInfo['startTime'+item]&&oldInfo['endTime'+item]){
-        useTimeString = getDifValue(oldInfo['endTime'+item],oldInfo['startTime'+item])
-        price = matchPrice(null,item,oldInfo['endTime'+item]-oldInfo['startTime'+item])
+      if (oldInfo['startTime' + item] && oldInfo['endTime' + item]) {
+        useTimeString = getDifValue(oldInfo['endTime' + item], oldInfo['startTime' + item])
+        price = matchPrice(null, item, oldInfo['endTime' + item] - oldInfo['startTime' + item])
         havFlag = true
       }
       // 加入时间集合
-      if(havFlag){
+      if (havFlag) {
         // 查询匹配的套餐
-        let findTypeObj = typesDict.find(typeItem =>typeItem.name === item)
-        let timeItem = {type:item,startTimeString,endTimeString,useTimeString,price,typeName:findTypeObj.value}
+        let findTypeObj = typesDict.find(typeItem => typeItem.name === item)
+        let timeItem = {
+          type: item,
+          startTimeString,
+          endTimeString,
+          useTimeString,
+          price,
+          typeName: findTypeObj.value
+        }
         saveList.push(timeItem)
       }
     }
-    console.log('saveList'+saveList)
+    console.log('saveList' + saveList)
     this.setData({
-      timeList:saveList
+      timeList: saveList
     })
   },
   getUserInfo: function (e) {
@@ -165,41 +183,41 @@ Page({
         var result = res.result;
         wx.getStorage({
           key: 'userSaveInfo',
-          success (res) {
-            that.doSaveInfo(result,res.data)
+          success(res) {
+            that.doSaveInfo(result, res.data)
           },
-          fail(res){
-            that.doSaveInfo(result,null)
+          fail(res) {
+            that.doSaveInfo(result, null)
           }
         })
-       
+
         console.log("result", result)
       },
-      fail(res){
+      fail(res) {
         console.log("res", res)
       }
     })
   },
   // 保存用户信息
-  doSaveInfo(result,oldInfo) {
+  doSaveInfo(result, oldInfo) {
     let that = this
     // 判断用户信息
     if (!!!oldInfo) {
       oldInfo = {}
       oldInfo.name = app.globalData.userInfo.nickName
-    }else if(oldInfo.startTime){
+    } else if (oldInfo.startTime) {
       // 判断是不是第二天 若是第二天则从新记时
       let oldDate = new Date(oldInfo.startTime)
       let oldY = oldDate.getFullYear()
-      let oldM = oldDate.getMonth()+1
-      let oldD  = oldDate.getDate()
+      let oldM = oldDate.getMonth() + 1
+      let oldD = oldDate.getDate()
       let newDate = new Date()
       let newY = newDate.getFullYear()
-      let newM = newDate.getMonth() +1 
+      let newM = newDate.getMonth() + 1
       let newD = newDate.getDate()
-      console.log("时间"+oldY+"年"+oldM+"月"+oldD+"日")
-      console.log("时间"+newY+"年"+newM+"月"+newD+"日")
-      if(oldY!=newY||oldM!=newM||oldD!=newD){
+      console.log("时间" + oldY + "年" + oldM + "月" + oldD + "日")
+      console.log("时间" + newY + "年" + newM + "月" + newD + "日")
+      if (oldY != newY || oldM != newM || oldD != newD) {
         oldInfo = {}
         oldInfo.name = app.globalData.userInfo.nickName
       }
@@ -226,31 +244,30 @@ Page({
       oldInfo.endTime = new Date().getTime()
     } else if (result.indexOf('小店码') > -1) {
       let typeObj = result.split("&&")
-      if (!oldInfo['startTime'+typeObj[1]]) {
-        let findTypeObj = typesDict.find(typeItem =>typeItem.name === typeObj[1])
+      if (!oldInfo['startTime' + typeObj[1]]) {
+        let findTypeObj = typesDict.find(typeItem => typeItem.name === typeObj[1])
         wx.showModal({
           title: '确认',
-          content: '是否选择'+findTypeObj.remark,
+          content: '是否选择' + findTypeObj.remark,
           success(res) {
             if (res.confirm) {
-              oldInfo['startTime'+typeObj[1]] = new Date().getTime()
-              oldInfo.startTime = new Date().getTime() 
-               // 保存用户信息
+              oldInfo['startTime' + typeObj[1]] = new Date().getTime()
+              oldInfo.startTime = new Date().getTime()
+              // 保存用户信息
               wx.setStorage({
                 data: oldInfo,
                 key: 'userSaveInfo',
               })
               that.getInfo()
               return
-            } else if (res.cancel) {
-            }
+            } else if (res.cancel) {}
           }
         })
-        
-      }else{
-        oldInfo['endTime'+typeObj[1]] = new Date().getTime()
+
+      } else {
+        oldInfo['endTime' + typeObj[1]] = new Date().getTime()
       }
-      
+
     } else {
       return
     }
@@ -261,9 +278,9 @@ Page({
       key: 'userSaveInfo',
     })
     this.getInfo()
-    
+
   },
-  doClear(){
+  doClear() {
     wx.clearStorage({
       success: (res) => {
         wx.showToast({
@@ -272,6 +289,34 @@ Page({
           icon: "none",
         })
       },
+    })
+  },
+  listenerRadioGroup(e) {
+
+    console.log('点击的是第' + e.detail.value + '个radio')
+
+    this.setData({
+
+      current: e.detail.value
+
+    })
+
+  },
+  dialogToggle(){
+     let oldInfo = {}
+    oldInfo['startTime' + this.data.current] = new Date().getTime()
+    oldInfo.startTime = new Date().getTime()
+    // 保存用户信息
+    app.globalData.userInfo = {}
+    wx.setStorage({
+      data: oldInfo,
+      key: 'userSaveInfo',
+      hasUserInfo:true,
+      
+    })
+    this.getInfo()
+    this.setData({
+      dialogShow: false
     })
   }
 })

@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <view class="container">
-  <view class="userinfo">
+  <view class="userinfo" wx:if="{{false}}" >
     <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取用户信息 </button>
     <block wx:else>
       <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
@@ -18,7 +18,23 @@
   <view class="usermotto" bindtap="toScan">
     <text class="user-motto">{{motto}}</text>
   </view>
-  <!-- <view class="usermotto"  style="bottom:50px"bindtap="doClear">
+  <view class="usermotto"  style="bottom:50px"bindtap="doClear">
     <text class="user-motto">清除</text>
-  </view> -->
+  </view>
+  <view  class="masker" wx:if="{{dialogShow}}" catchtouchmove="true" >
+		<view class="pohone-box">
+      <view style="height:18rpx"></view>
+      <radio-group bindchange="listenerRadioGroup">
+			<view class="phone" wx:for="{{typesDict}}">
+        <view class="label">
+          <radio value="{{item.name}}" checked="{{item.name == current }}"></radio>{{item.value}}
+        </view>
+        <view class="remark">{{item.remark}}</view>
+      </view>
+    </radio-group>
+			<view class="btn-box">
+				<view bindtap="dialogToggle">确定</view>
+			</view>
+		</view>
+	</view>
 </view>

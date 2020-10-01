@@ -28,3 +28,55 @@
 .time-box{
   font-size: 28rpx;
 }
+.masker {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .6);
+  overflow: scroll;
+  z-index: 999;
+}
+.pohone-box {
+  width: 80%;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  margin: 0 auto;
+  margin-top: 40%;
+  z-index: 1000;
+
+  .title {
+    font-size: 36rpx;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .phone {
+    margin-top: 16rpx;
+    font-size: 30rpx;
+    text-align: left;
+    color: #333;
+  }
+
+  .work-day {
+    font-size: 30rpx;
+    text-align: center;
+    color: #333;
+  }
+
+  .btn-box {
+    margin-top: 40rpx;
+    border-top: 1rpx solid #E5E5E5;
+    display: flex;
+
+    view {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #1677FF;
+      height: 100rpx;
+    }
+  }
+}
