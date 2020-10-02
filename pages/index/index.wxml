@@ -24,6 +24,7 @@
   <view  class="masker" wx:if="{{dialogShow}}" catchtouchmove="true" >
 		<view class="pohone-box">
       <view style="height:18rpx"></view>
+      <view class="dia-title" style="height:18rpx;">请选择套餐</view>
       <radio-group bindchange="listenerRadioGroup">
 			<view class="phone" wx:for="{{typesDict}}">
         <view class="label">

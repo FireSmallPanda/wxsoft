@@ -63,6 +63,7 @@ Page({
   },
 
   onShow: function () {
+    
     this.getInfo()
 
   },
@@ -78,8 +79,10 @@ Page({
         that.doShowInfo(res.data)
       },
       fail(res) {
+        that.setData({
+          dialogShow:true
+        })
         return
-        //  that.doShowInfo(null)
       }
     })
   },
@@ -87,6 +90,9 @@ Page({
   doShowInfo(oldInfo) {
     // 判断用户信息
     if (!!!oldInfo) {
+      this.setData({
+        dialogShow:true
+      })
       return
     }
 
@@ -103,6 +109,9 @@ Page({
       if (oldY != newY || oldM != newM || oldD != newD) {
         oldInfo = {}
         oldInfo.name = app.globalData.userInfo.nickName
+        this.setData({
+          dialogShow:true
+        })
         return
       }
       this.matchOutTime(oldInfo)
@@ -155,6 +164,7 @@ Page({
     })
   },
   getUserInfo: function (e) {
+    
     app.globalData.userInfo = e.detail.userInfo
     this.setData({
       userInfo: e.detail.userInfo,
@@ -335,5 +345,5 @@ Page({
     this.setData({
       dialogShow: false
     })
-  }
+  },
 })
