@@ -16,11 +16,11 @@
   </view>
   
   <view class="usermotto" bindtap="toScan">
-    <text class="user-motto">{{motto}}</text>
+    <text class="user-motto">扫一扫</text>
   </view>
-  <view class="usermotto"  style="bottom:50px"bindtap="doClear">
+  <!-- <view class="usermotto"  style="bottom:50px"bindtap="doClear">
     <text class="user-motto">清除</text>
-  </view>
+  </view> -->
   <view  class="masker" wx:if="{{dialogShow}}" catchtouchmove="true" >
 		<view class="pohone-box">
       <view style="height:18rpx"></view>

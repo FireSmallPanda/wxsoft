@@ -14,13 +14,17 @@
   color: #aaa;
 }
 .usermotto {
-  padding: 20rpx;
+  width: 200rpx;
+  height: 200rpx;
   background-color: skyblue;
-  border-radius: 60rpx;
+  border-radius: 50%;
   color: #FFF;
   font-weight: bold;
   position: fixed;
   bottom: 200rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .time-box {
   font-size: 28rpx;
