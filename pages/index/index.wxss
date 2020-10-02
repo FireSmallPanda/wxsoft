@@ -53,6 +53,10 @@
   font-size: 30rpx;
   text-align: left;
   color: #333;
+  padding: 0 20rpx;
+}
+.pohone-box .phone .remark {
+  padding-left: 60rpx;
 }
 .pohone-box .work-day {
   font-size: 30rpx;

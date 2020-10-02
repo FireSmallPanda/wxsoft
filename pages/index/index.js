@@ -20,7 +20,7 @@ Page({
     endTimeString: "",
     useTimeString: "",
     timeList: [],
-    dialogShow: true,
+    dialogShow: false,
     typesDict: typesDict,
     current:'A'
   },
@@ -67,10 +67,9 @@ Page({
 
   },
   getInfo() {
-    // if (!this.data.hasUserInfo) {
-    //   return
-    // }
-    
+    if (!this.data.hasUserInfo) {
+      return
+    }
     let that = this;
     wx.getStorage({
       key: 'userSaveInfo',
@@ -222,6 +221,8 @@ Page({
         oldInfo.name = app.globalData.userInfo.nickName
       }
     }
+    // 扫码开始
+    
     if (result.indexOf('进入码') > -1) {
       if (oldInfo.startTime) {
         wx.showToast({
@@ -268,6 +269,22 @@ Page({
         oldInfo['endTime' + typeObj[1]] = new Date().getTime()
       }
 
+    }else if (result.indexOf('套餐结束') > -1) {
+      let havStartTime = false 
+      typesDict.forEach(typeItem=>{
+        
+        if( oldInfo['startTime'+typeItem.name ]){
+          havStartTime = true
+          
+          oldInfo['endTime' + typeItem.name ] = new Date().getTime()
+        }
+      })
+      
+      if(!havStartTime){
+        this.setData({
+          dialogShow:true
+        })
+      }
     } else {
       return
     }
