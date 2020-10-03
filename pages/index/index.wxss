@@ -29,6 +29,10 @@
 .time-box {
   font-size: 28rpx;
 }
+.time-box .price-text {
+  display: flex;
+  align-items: center;
+}
 .masker {
   position: fixed;
   top: 0;
